@@ -3,7 +3,7 @@ const connection=require('../config/db');
 
 //Get all products
 exports.getAllProduct=(req,res)=>{
-    connection.query('SELECT * FROM product_info', (err,rows,fields)=>{
+    connection.query('SELECT * FROM inventory', (err,rows,fields)=>{
         if(err) throw err;
             res.json(rows);
     });
@@ -14,7 +14,7 @@ exports.getAllProduct=(req,res)=>{
 exports.getProductById=(req,res)=>{
     const id=req.params.id;
     
-    connection.query('SELECT * FROM product_info WHERE id=?', [id], (err,rows,fields)=>{
+    connection.query('SELECT * FROM inventory WHERE id=?', [id], (err,rows,fields)=>{
         if(err) throw err;
         if(rows.length>0)
             res.json(rows);
@@ -27,10 +27,11 @@ exports.getProductById=(req,res)=>{
 //CRUD - Create
 exports.createProduct=(req,res)=>{
     const {productName,category,stockCount,locationCode,lastUpdated}=req.body;
-    connection.query('INSERT INTO product_info (productName, category, stockCount, locationCode,lastUpdated) VALUES (?,?,?,?,?)', [productName,category,stockCount,locationCode,lastUpdated],(err,result)=>{
+    connection.query('INSERT INTO inventory (productName, category, stockCount, locationCode,lastUpdated) VALUES (?,?,?,?,?)', [productName,category,stockCount,locationCode,lastUpdated],(err,result)=>{
         if(err) throw err;
         res.json({message:'Product created successfully', userId:result.insertId})
     })
 }
+
 
 
